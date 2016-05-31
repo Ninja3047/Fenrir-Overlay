@@ -1,0 +1,22 @@
+diff --git a/st.c b/st.c
+index b89d094..88c78f5 100644
+--- a/st.c
++++ b/st.c
+@@ -3483,9 +3483,14 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
+ 	}
+ 
+ 	if(base.mode & ATTR_REVERSE) {
+-		temp = fg;
+-		fg = bg;
+-		bg = temp;
++		if (bg == fg) {
++			bg = &dc.col[defaultfg];
++			fg = &dc.col[defaultbg];
++		} else {
++			temp = fg;
++			fg = bg;
++			bg = temp;
++		}
+ 	}
+ 
+ 	if((base.mode & ATTR_BOLD_FAINT) == ATTR_FAINT) {

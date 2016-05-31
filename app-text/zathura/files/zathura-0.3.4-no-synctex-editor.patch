@@ -1,0 +1,24 @@
+diff --git a/zathura/main.c b/zathura/main.c
+index 060382a..9c0d0d3 100644
+--- a/zathura/main.c
++++ b/zathura/main.c
+@@ -250,11 +250,16 @@ main(int argc, char* argv[])
+
+   /* Create zathura session */
+   zathura_t* zathura = init_zathura(config_dir, data_dir, cache_dir,
+-#ifdef GDK_WINDOWING_X11
+-      plugin_path, argv, synctex_editor, embed);
++      plugin_path, argv,
++#ifdef WITH_SYNCTEX
++      synctex_editor
+ #else
+-      plugin_path, argv, synctex_editor);
++      NULL
++#endif
++#ifdef GDK_WINDOWING_X11
++      , embed
+ #endif
++  );
+   if (zathura == NULL) {
+     girara_error("Could not initialize zathura.");
+     return -1;

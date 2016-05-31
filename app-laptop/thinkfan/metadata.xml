@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer>
+		<email>wtan@foobar.network</email>
+		<name>William Tan</name>
+	</maintainer>
+	<use>
+		<flag name="atasmart">include libatasmart support to get disc temperature</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">thinkfan</remote-id>
+	</upstream>
+</pkgmetadata>
