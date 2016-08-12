@@ -20,7 +20,7 @@ HOMEPAGE="http://www.qutebrowser.org/ https://github.com/The-Compiler/qutebrowse
 
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="gstreamer test"
+IUSE="gstreamer pdf webengine test"
 
 COMMON_DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 DEPEND="${COMMON_DEPEND}
@@ -30,9 +30,11 @@ RDEPEND="${COMMON_DEPEND}
 	>=dev-python/jinja-2.8[${PYTHON_USEDEP}]
 	>=dev-python/pygments-2.1.3[${PYTHON_USEDEP}]
 	>=dev-python/pypeg2-2.15.2[${PYTHON_USEDEP}]
-	dev-python/PyQt5[${PYTHON_USEDEP},gui,network,printsupport,webkit,widgets]
+	dev-python/PyQt5[${PYTHON_USEDEP},gui,network,printsupport,webkit,webengine,webchannel,widgets]
 	>=dev-python/pyyaml-3.11[${PYTHON_USEDEP}]
+	webengine? ( dev-qt/qtwebengine[widgets] )
 	gstreamer? ( dev-qt/qtwebkit:5[gstreamer] )
+	pdf? ( www-plugins/pdfjs )
 "
 
 RESTRICT="test"
