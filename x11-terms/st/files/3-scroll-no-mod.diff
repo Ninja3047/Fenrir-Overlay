@@ -1,0 +1,65 @@
+diff -Naur a/config.def.h b/config.def.h
+--- a/config.def.h	2016-08-13 20:49:03.254680922 -0400
++++ b/config.def.h	2016-08-13 17:53:39.367855916 -0400
+@@ -146,20 +146,10 @@
+ static unsigned int defaultitalic = 11;
+ static unsigned int defaultunderline = 7;
+
+-/*
+- * Internal mouse shortcuts.
+- * Beware that overloading Button1 will disable the selection.
+- */
+-static MouseShortcut mshortcuts[] = {
+-	/* button               mask            string */
+-	{ Button4,              XK_NO_MOD,      "\031" },
+-	{ Button5,              XK_NO_MOD,      "\005" },
+-};
+-
+ static MouseKey mkeys[] = {
+-	/* button               mask            function        argument */
+-	{ Button4,              ShiftMask,      kscrollup,      {.i =  1} },
+-	{ Button5,              ShiftMask,      kscrolldown,    {.i =  1} },
++	/* button               function        argument */
++	{ Button4,              kscrollup,      {.i =  1} },
++	{ Button5,              kscrolldown,    {.i =  1} },
+ };
+
+ /* Internal keyboard shortcuts. */
+diff -Naur a/st.c b/st.c
+--- a/st.c	2016-08-13 20:49:03.255680922 -0400
++++ b/st.c	2016-08-13 20:57:41.756693245 -0400
+@@ -301,7 +301,6 @@
+
+ typedef struct {
+ 	uint b;
+-	uint mask;
+ 	void (*func)(const Arg *);
+ 	const Arg arg;
+ } MouseKey;
+@@ -959,7 +959,6 @@
+ bpress(XEvent *e)
+ {
+ 	struct timespec now;
+-	MouseShortcut *ms;
+ 	MouseKey *mk;
+
+ 	if (IS_SET(MODE_MOUSE) && !(e->xbutton.state & forceselmod)) {
+@@ -967,17 +966,8 @@
+ 		return;
+ 	}
+
+-	for (ms = mshortcuts; ms < mshortcuts + LEN(mshortcuts); ms++) {
+-		if (e->xbutton.button == ms->b
+-				&& match(ms->mask, e->xbutton.state)) {
+-			ttysend(ms->s, strlen(ms->s));
+-			return;
+-		}
+-	}
+-
+ 	for (mk = mkeys; mk < mkeys + LEN(mkeys); mk++) {
+-		if (e->xbutton.button == mk->b
+-				&& match(mk->mask, e->xbutton.state)) {
++		if (e->xbutton.button == mk->b) {
+ 			mk->func(&mk->arg);
+ 			return;
+ 		}
